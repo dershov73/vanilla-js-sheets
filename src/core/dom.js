@@ -31,7 +31,7 @@ class Dom {
   }
 
   text(text) {
-    if (typeof text === 'string') {
+    if (typeof text === 'string' || typeof text === 'number') {
       this.$el.textContent = text;
       return this;
     }
@@ -41,6 +41,15 @@ class Dom {
       : 'textContent';
 
     return this.$el[key].trim();
+  }
+
+  attr(name, value) {
+    if (value) {
+      this.$el.setAttribute(name, value);
+      return this;
+    }
+
+    return this.$el.getAttribute(name);
   }
 
   focus() {
@@ -97,6 +106,15 @@ class Dom {
     Object.keys(styles).forEach((styleName) => {
       this.$el.style[styleName] = styles[styleName];
     });
+  }
+
+  getStyles(...styles) {
+    return styles.reduce((acc, style) => {
+      return {
+        ...acc,
+        [style]: this.$el.style[style],
+      };
+    }, {});
   }
 
   on(eventType, callback) {

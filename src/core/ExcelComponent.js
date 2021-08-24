@@ -4,6 +4,8 @@ export class ExcelComponent extends DomListener {
   constructor($root, options = {}) {
     super($root, options.listeners, options.name);
     this.emitter = options.emitter;
+    this.subscribe = options.subscribe || [];
+    this.store = options.store;
     this.unsubscribers = [];
 
     this.prepare();
@@ -37,6 +39,22 @@ export class ExcelComponent extends DomListener {
   destroy() {
     this.removeDomListeners();
     this.unsubscribers.forEach((unsub) => unsub());
+  }
+
+  $dispatch(action) {
+    this.store.dispatch(action);
+  }
+
+  /**
+   * Метод реагирует на изменения в тех полях, на которые есть подписка.
+   * @param {Object} changes
+   */
+  storeChanged(changes) {
+    console.log('changes', changes);
+  }
+
+  isWatching(key) {
+    return this.subscribe.includes(key);
   }
 
   /**

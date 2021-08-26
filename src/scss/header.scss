@@ -29,5 +29,9 @@
 
   .button {
     @include button(red);
+
+    > * {
+      pointer-events: none;
+    }
   }
 }

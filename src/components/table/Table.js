@@ -81,7 +81,9 @@ export class Table extends ExcelComponent {
   }
 
   onInput(event) {
-    this.updateTextInStore($(event.target).text());
+    const $target = $(event.target);
+    $target.attr('data-value', $target.text());
+    this.updateTextInStore($target.text());
   }
 
   onMousedown(event) {
